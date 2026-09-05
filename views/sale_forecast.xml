@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="action_sale_forecast_chart" model="ir.actions.client">
+        <field name="name">Sales Forecast</field>
+        <field name="tag">sale_forecast_chart_action</field>
+    </record>
+
+    <menuitem id="menu_forecast_chart_root"
+        name="Forecasting"
+        sequence="20" />
+
+    <menuitem id="menu_sale_forecast_chart"
+        name="Forecast Dashboard"
+        parent="menu_forecast_chart_root"
+        action="action_sale_forecast_chart"
+        sequence="10" />
+
+</odoo>

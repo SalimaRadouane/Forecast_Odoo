@@ -1,0 +1,242 @@
+<templates xml:space="preserve">
+
+    <t t-name="sale_forecast.ForecastChart" owl="1">
+
+        <div class="container-fluid p-4">
+
+            <!-- Header -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+
+                <div>
+                    <h2 class="fw-bold mb-0">
+                        Forecast AI
+                    </h2>
+                    <small class="text-muted">
+                        Intelligent Sales Forecasting
+                    </small>
+                </div>
+
+                <button class="btn btn-primary"
+                        t-on-click="onGenerateForecast"
+                        t-att-disabled="state.generating">
+
+                    <i class="fa fa-refresh me-2"
+                       t-att-class="{ 'fa-spin': state.generating }"/>
+
+                    <t t-if="state.generating">
+                        Generating...
+                    </t>
+
+                    <t t-else="">
+                        Generate Report
+                    </t>
+
+                </button>
+
+            </div>
+
+            <!-- KPI -->
+            <div class="row g-3 mb-4">
+
+                <!-- Forecast Sales -->
+                <div class="col-lg-3 col-md-6">
+
+                    <div class="card shadow-sm border-0">
+
+                        <div class="card-body">
+
+                            <div class="d-flex justify-content-between align-items-center">
+
+                                <div>
+                                    <div class="text-muted">
+                                        Forecast Sales
+                                    </div>
+
+                                    <h2 class="fw-bold text-success mb-0">
+                                        <t t-esc="state.forecast30Days"/>
+                                    </h2>
+
+                                    <small class="text-muted">
+                                        Next 30 Days
+                                    </small>
+                                </div>
+
+                                <i class="fa fa-line-chart fa-2x text-success"/>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Forecast Revenue -->
+                <div class="col-lg-3 col-md-6">
+
+                    <div class="card shadow-sm border-0">
+
+                        <div class="card-body">
+
+                            <div class="d-flex justify-content-between align-items-center">
+
+                                <div>
+                                    <div class="text-muted">
+                                        Forecast Revenue
+                                    </div>
+
+                                    <h2 class="fw-bold text-primary mb-0">
+                                        <t t-esc="state.forecastRevenue"/>
+                                    </h2>
+
+                                    <small class="text-muted">
+                                        Next 30 Days
+                                    </small>
+                                </div>
+
+                                <i class="fa fa-money fa-2x text-primary"/>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Stockout Risks -->
+                <div class="col-lg-3 col-md-6">
+
+                    <div class="card shadow-sm border-0">
+
+                        <div class="card-body">
+
+                            <div class="d-flex justify-content-between align-items-center">
+
+                                <div>
+                                    <div class="text-muted">
+                                        Stockout Risks
+                                    </div>
+
+                                    <h2 class="fw-bold text-danger mb-0">
+                                        <t t-esc="state.stockouts"/>
+                                    </h2>
+
+                                    <small class="text-muted">
+                                        Products at Risk
+                                    </small>
+                                </div>
+
+                                <i class="fa fa-warning fa-2x text-danger"/>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- AI Confidence -->
+                <div class="col-lg-3 col-md-6">
+
+                    <div class="card shadow-sm border-0">
+
+                        <div class="card-body">
+
+                            <div class="d-flex justify-content-between align-items-center">
+
+                                <div>
+                                    <div class="text-muted">
+                                        AI Confidence
+                                    </div>
+
+                                    <h2 class="fw-bold text-info mb-0">
+                                        <t t-esc="state.confidence"/>%
+                                    </h2>
+
+                                    <small class="text-muted">
+                                        Prophet Model
+                                    </small>
+                                </div>
+
+                                <i class="fa fa-bullseye fa-2x text-info"/>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Filters -->
+            <div class="card shadow-sm border-0 mb-4">
+
+                <div class="card-body">
+
+                    <div class="row align-items-center">
+
+                        <div class="col-auto">
+                            <label class="fw-bold mb-0">
+                                Product
+                            </label>
+                        </div>
+
+                        <div class="col-md-4">
+
+                            <select class="form-select"
+                                    t-on-change="onProductChange">
+
+                                <t t-foreach="state.products"
+                                   t-as="product"
+                                   t-key="product.id">
+
+                                    <option
+                                        t-att-value="product.id"
+                                        t-att-selected="product.id === state.selectedProductId">
+
+                                        <t t-esc="product.name"/>
+
+                                    </option>
+
+                                </t>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Chart -->
+            <div class="card shadow-sm border-0">
+
+                <div class="card-header bg-white">
+
+                    <h5 class="mb-0">
+                        Sales Forecast
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <div style="height:500px;">
+                        <canvas t-ref="canvas"/>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </t>
+
+</templates>
